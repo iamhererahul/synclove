@@ -120,6 +120,13 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("chat-message", { message, sender });
   });
 
+
+  // ── WebRTC VOICE SIGNALING ───────────────────
+  socket.on('webrtc-offer',    ({ roomId, offer })     => socket.to(roomId).emit('webrtc-offer',    { offer }));
+  socket.on('webrtc-answer',   ({ roomId, answer })    => socket.to(roomId).emit('webrtc-answer',   { answer }));
+  socket.on('webrtc-ice',      ({ roomId, candidate }) => socket.to(roomId).emit('webrtc-ice',      { candidate }));
+  socket.on('webrtc-end-call', ({ roomId })            => socket.to(roomId).emit('webrtc-end-call'));
+
   // ── DISCONNECT ──────────────────────────────
   socket.on("disconnect", () => {
     const { roomId, role } = socket.data;
